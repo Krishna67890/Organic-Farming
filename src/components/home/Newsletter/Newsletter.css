@@ -1,0 +1,144 @@
+.newsletter-section {
+  background: linear-gradient(135deg, #f8fff8 0%, #e8f5e8 100%);
+  padding: 4rem 0;
+  border-top: 1px solid #e0f2e0;
+  border-bottom: 1px solid #e0f2e0;
+}
+
+.newsletter-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.newsletter-text {
+  text-align: left;
+}
+
+.newsletter-icon {
+  font-size: 2.5rem;
+  color: #4CAF50;
+  margin-bottom: 1rem;
+}
+
+.newsletter-text h2 {
+  color: #2E7D32;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.newsletter-text p {
+  color: #555;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.newsletter-form-container {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(76, 175, 80, 0.1);
+  border: 1px solid #e0f2e0;
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.input-icon {
+  position: absolute;
+  left: 15px;
+  color: #4CAF50;
+  font-size: 1.1rem;
+}
+
+.newsletter-input {
+  width: 100%;
+  padding: 1rem 1rem 1rem 3rem;
+  border: 2px solid #e0f2e0;
+  border-radius: 50px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #f8fff8;
+}
+
+.newsletter-input:focus {
+  outline: none;
+  border-color: #4CAF50;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.subscribe-btn {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.subscribe-btn:hover {
+  background: linear-gradient(135deg, #45a049, #3d8b40);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.subscription-success {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #e8f5e8;
+  color: #2E7D32;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  animation: slideIn 0.3s ease;
+}
+
+.newsletter-note {
+  color: #666;
+  font-size: 0.9rem;
+  text-align: center;
+  margin: 0;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .newsletter-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+  }
+  
+  .newsletter-text {
+    text-align: center;
+  }
+  
+  .newsletter-text h2 {
+    font-size: 1.5rem;
+  }
+}

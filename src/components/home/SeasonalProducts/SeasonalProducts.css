@@ -1,0 +1,182 @@
+.seasonal-products {
+  padding: 4rem 0;
+  background: linear-gradient(135deg, #f8fff8 0%, #f0f8f0 100%);
+}
+
+.seasonal-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.seasonal-title {
+  color: #2E7D32;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.seasonal-subtitle {
+  color: #555;
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.seasonal-content {
+  margin-bottom: 3rem;
+}
+
+.seasonal-description {
+  text-align: center;
+  color: #666;
+  font-size: 1rem;
+  max-width: 800px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.seasonal-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: linear-gradient(135deg, #FF9800, #F57C00);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  z-index: 2;
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+}
+
+.seasonal-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(76, 175, 80, 0.1);
+}
+
+.feature {
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+  color: #4CAF50;
+  margin-bottom: 1rem;
+}
+
+.feature h4 {
+  color: #2E7D32;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.feature p {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.seasonal-cta {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+  background: linear-gradient(135deg, #45a049, #3d8b40);
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* Seasonal theme variations */
+.spring-theme {
+  background: linear-gradient(135deg, #f8fff8 0%, #e8f5e9 100%);
+}
+
+.summer-theme {
+  background: linear-gradient(135deg, #fff8f1 0%, #fff3e0 100%);
+}
+
+.autumn-theme {
+  background: linear-gradient(135deg, #fff8f1 0%, #fbe9e7 100%);
+}
+
+.winter-theme {
+  background: linear-gradient(135deg, #f8fdff 0%, #e3f2fd 100%);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .seasonal-products {
+    padding: 2rem 0;
+  }
+  
+  .seasonal-title {
+    font-size: 2rem;
+  }
+  
+  .products-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .seasonal-features {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+  
+  .feature {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .seasonal-title {
+    font-size: 1.75rem;
+  }
+  
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .cta-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
+} 

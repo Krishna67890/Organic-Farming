@@ -1,0 +1,420 @@
+/* Loading Container */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f8fff8 0%, #f0f8f0 100%);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(76, 175, 80, 0.1);
+  border: 1px solid rgba(76, 175, 80, 0.1);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.loading-container.full-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fff8 100%);
+  z-index: 9999;
+  border-radius: 0;
+}
+
+.loading-container.small {
+  padding: 1rem;
+  max-width: 200px;
+}
+
+.loading-container.large {
+  padding: 3rem;
+  max-width: 500px;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Organic Loader Animation */
+.organic-loader {
+  position: relative;
+  width: 80px;
+  height: 100px;
+  margin-bottom: 2rem;
+}
+
+.leaf {
+  position: absolute;
+  width: 30px;
+  height: 20px;
+  background: #4CAF50;
+  border-radius: 50% 0 50% 50%;
+  transform-origin: bottom right;
+  animation: leaf-grow 2s ease-in-out infinite;
+}
+
+.leaf-1 {
+  top: 20px;
+  left: 25px;
+  animation-delay: 0s;
+}
+
+.leaf-2 {
+  top: 35px;
+  left: 15px;
+  transform: rotate(-120deg);
+  animation-delay: 0.3s;
+}
+
+.leaf-3 {
+  top: 35px;
+  left: 35px;
+  transform: rotate(-240deg);
+  animation-delay: 0.6s;
+}
+
+.stem {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 60px;
+  background: #8BC34A;
+  border-radius: 2px;
+  animation: stem-grow 2s ease-in-out infinite;
+}
+
+.soil {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 15px;
+  background: #795548;
+  border-radius: 50%;
+}
+
+/* Pulse Loader */
+.pulse-loader {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 2rem;
+}
+
+.pulse-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 3px solid #4CAF50;
+  border-radius: 50%;
+  animation: pulse 1.5s ease-out infinite;
+}
+
+.pulse-1 {
+  width: 20px;
+  height: 20px;
+  animation-delay: 0s;
+}
+
+.pulse-2 {
+  width: 40px;
+  height: 40px;
+  animation-delay: 0.5s;
+}
+
+.pulse-3 {
+  width: 60px;
+  height: 60px;
+  animation-delay: 1s;
+}
+
+/* Farm Loader */
+.farm-loader {
+  position: relative;
+  width: 120px;
+  height: 80px;
+  margin-bottom: 2rem;
+}
+
+.tractor {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  animation: tractor-move 3s ease-in-out infinite;
+}
+
+.tractor-body {
+  width: 40px;
+  height: 20px;
+  background: #FF9800;
+  border-radius: 5px;
+}
+
+.tractor-cabin {
+  position: absolute;
+  top: -15px;
+  left: 25px;
+  width: 15px;
+  height: 15px;
+  background: #FF9800;
+  border-radius: 3px;
+}
+
+.wheel {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #333;
+  border-radius: 50%;
+  bottom: -6px;
+  animation: wheel-spin 1s linear infinite;
+}
+
+.wheel-1 { left: 5px; }
+.wheel-2 { left: 25px; }
+
+.field {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 20px;
+  background: #8BC34A;
+  border-radius: 5px;
+}
+
+.crop-row {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: #4CAF50;
+  animation: crop-grow 2s ease-in-out infinite;
+}
+
+.crop-row:nth-child(1) { bottom: 5px; animation-delay: 0s; }
+.crop-row:nth-child(2) { bottom: 10px; animation-delay: 0.5s; }
+.crop-row:nth-child(3) { bottom: 15px; animation-delay: 1s; }
+
+/* Harvest Loader */
+.harvest-loader {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin-bottom: 2rem;
+}
+
+.basket {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 25px;
+  background: #FF9800;
+  border-radius: 5px 5px 0 0;
+  animation: basket-bounce 2s ease-in-out infinite;
+}
+
+.apple, .carrot, .tomato {
+  position: absolute;
+  border-radius: 50%;
+  animation: fruit-fall 2s ease-in-out infinite;
+}
+
+.apple {
+  width: 12px;
+  height: 12px;
+  background: #ff4444;
+  top: -20px;
+  left: 10px;
+  animation-delay: 0s;
+}
+
+.carrot {
+  width: 8px;
+  height: 15px;
+  background: #FF9800;
+  border-radius: 50% 50% 0 0;
+  top: -25px;
+  left: 25px;
+  animation-delay: 0.3s;
+}
+
+.tomato {
+  width: 10px;
+  height: 10px;
+  background: #ff4444;
+  top: -18px;
+  left: 40px;
+  animation-delay: 0.6s;
+}
+
+.sun {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  background: #FFC107;
+  border-radius: 50%;
+  animation: sun-rotate 4s linear infinite;
+}
+
+/* Loading Content */
+.loading-content {
+  text-align: center;
+  width: 100%;
+}
+
+.loading-text {
+  font-size: 1.1rem;
+  color: #2E7D32;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.dots {
+  color: #4CAF50;
+}
+
+/* Loading Stats */
+.loading-stats {
+  margin-bottom: 1.5rem;
+}
+
+.stat {
+  margin-bottom: 0.8rem;
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 0.3rem;
+  text-align: left;
+}
+
+.stat-bar {
+  width: 100%;
+  height: 6px;
+  background: #E8F5E8;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.stat-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #4CAF50, #8BC34A);
+  border-radius: 3px;
+  animation: progress-load 2s ease-in-out infinite;
+}
+
+/* Farm Facts */
+.farm-facts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.fact {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
+  animation: fact-fade 3s ease-in-out infinite;
+}
+
+.fact:nth-child(1) { animation-delay: 0s; }
+.fact:nth-child(2) { animation-delay: 1s; }
+.fact:nth-child(3) { animation-delay: 2s; }
+
+.fact-icon {
+  font-size: 1.1rem;
+}
+
+/* Animations */
+@keyframes leaf-grow {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.1) rotate(5deg); }
+}
+
+@keyframes stem-grow {
+  0%, 100% { height: 60px; }
+  50% { height: 65px; }
+}
+
+@keyframes pulse {
+  0% { opacity: 1; transform: translate(-50%, -50%) scale(0.8); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(2); }
+}
+
+@keyframes tractor-move {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(60px); }
+}
+
+@keyframes wheel-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes crop-grow {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+@keyframes basket-bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-5px); }
+}
+
+@keyframes fruit-fall {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(25px) rotate(180deg); }
+}
+
+@keyframes sun-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes progress-load {
+  0% { width: 0%; }
+  50% { width: 100%; }
+  100% { width: 0%; }
+}
+
+@keyframes fact-fade {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .loading-container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+  
+  .farm-facts {
+    font-size: 0.8rem;
+  }
+}
