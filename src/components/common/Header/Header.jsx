@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { FaLeaf, FaShoppingCart, FaUser, FaBars, FaTimes } from 'react-icons/fa'
 import { useCart } from '../../../context/CartContext'
@@ -6,7 +6,8 @@ import './Header.css'
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const { getCartItemsCount } = useCart() // Changed from getCartCount to getCartItemsCount
+  const [isScrolled, setIsScrolled] = useState(false)
+  const { getCartItemsCount } = useCart()
   const location = useLocation()
 
   const navigation = [
@@ -18,6 +19,35 @@ const Header = () => {
     { path: '/contact', label: 'Contact' }
   ]
 
+  // Scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY
+      setIsScrolled(scrollTop > 20)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  // Close mobile menu when route changes
+  useEffect(() => {
+    closeMobileMenu()
+  }, [location.pathname])
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isMobileMenuOpen])
+
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
   }
@@ -27,7 +57,7 @@ const Header = () => {
   }
 
   return (
-    <header className="header">
+    <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
       <div className="container">
         <div className="header-content">
           {/* Logo */}
@@ -53,8 +83,8 @@ const Header = () => {
           <div className="header-actions">
             <Link to="/cart" className="cart-link">
               <FaShoppingCart className="cart-icon" />
-              {getCartItemsCount() > 0 && ( // Changed to getCartItemsCount
-                <span className="cart-count">{getCartItemsCount()}</span> // Changed to getCartItemsCount
+              {getCartItemsCount() > 0 && (
+                <span className="cart-count">{getCartItemsCount()}</span>
               )}
             </Link>
             
@@ -62,11 +92,12 @@ const Header = () => {
               <FaUser />
             </Link>
 
-            {/* Mobile Menu Toggle */}
+            {/* Mobile Menu Toggle - Green Hamburger */}
             <button 
               className="mobile-menu-toggle"
               onClick={toggleMobileMenu}
-              aria-label="Toggle menu"
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMobileMenuOpen}
             >
               {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
             </button>
@@ -74,7 +105,10 @@ const Header = () => {
         </div>
 
         {/* Mobile Navigation */}
-        <nav className={`mobile-nav ${isMobileMenuOpen ? 'open' : ''}`}>
+        <nav 
+          className={`mobile-nav ${isMobileMenuOpen ? 'open' : ''}`}
+          aria-hidden={!isMobileMenuOpen}
+        >
           {navigation.map((item) => (
             <Link
               key={item.path}
@@ -86,6 +120,15 @@ const Header = () => {
             </Link>
           ))}
         </nav>
+
+        {/* Mobile Overlay */}
+        {isMobileMenuOpen && (
+          <div 
+            className="mobile-overlay active"
+            onClick={closeMobileMenu}
+            aria-hidden="true"
+          />
+        )}
       </div>
     </header>
   )

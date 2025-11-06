@@ -17,9 +17,13 @@ import {
   FaTwitter,
   FaYoutube,
   FaGithub,
-  FaLinkedin
+  FaLinkedin,
+  FaArrowUp,
+  FaCcVisa,
+  FaCcMastercard,
+  FaCcPaypal,
+  FaCcApplePay
 } from 'react-icons/fa'
-import Loading from '../components/common/Loading/Loading'
 import './Contact.css'
 
 const Contact = () => {
@@ -36,21 +40,49 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState(null)
   const [activeTab, setActiveTab] = useState('contact')
+  const [isScrolled, setIsScrolled] = useState(false)
   const formRef = useRef(null)
+
+  // Scroll to top function
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }
+
+  // Check scroll position for back to top button
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 400)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   // Farm information
   const farmInfo = {
     name: "Green Valley Organic Farm",
     address: "123 Organic Way, Sustainable City, SC 12345",
     phone: "+1 (555) 123-4567",
-    email: "hello@greenvalleyorganic.com",
+    email: "sayalimore@greenvalleyorganic.com",
     hours: {
       weekdays: "8:00 AM - 6:00 PM",
       weekends: "9:00 AM - 4:00 PM"
     }
   }
 
-  // Team members - Updated with correct GitHub and LinkedIn links
+  // Trust badges
+  const trustBadges = [
+    { icon: FaLeaf, text: 'USDA Organic Certified' },
+    { icon: FaSeedling, text: 'Non-GMO Project Verified' },
+    { icon: FaRecycle, text: 'Sustainable Farming' },
+    { icon: FaShippingFast, text: 'Fast Delivery' },
+    { icon: FaCcVisa, text: 'Secure Payments' }
+  ]
+
+  // Team members
   const teamMembers = [
     {
       id: 1,
@@ -195,6 +227,23 @@ const Contact = () => {
           <a href="https://www.linkedin.com/in/krishna-patil-rajput-b66b03340" target="_blank" rel="noopener noreferrer">
             <FaLinkedin />
           </a>
+        </div>
+      </div>
+
+      {/* Trust Badges Bar */}
+      <div className="trust-badges-bar">
+        <div className="container">
+          <div className="trust-badges">
+            {trustBadges.map((badge, index) => {
+              const BadgeIcon = badge.icon
+              return (
+                <div key={index} className="trust-badge">
+                  <BadgeIcon className="badge-icon" />
+                  <span>{badge.text}</span>
+                </div>
+              )
+            })}
+          </div>
         </div>
       </div>
 
@@ -405,7 +454,7 @@ const Contact = () => {
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? (
-                      <Loading size="small" />
+                      <div className="loading-spinner"></div>
                     ) : (
                       <>
                         <FaPaperPlane />
@@ -698,6 +747,15 @@ const Contact = () => {
           </div>
         )}
       </div>
+
+      {/* Back to Top Button */}
+      <button 
+        className={`back-to-top ${isScrolled ? 'visible' : ''}`}
+        onClick={scrollToTop}
+        aria-label="Back to top"
+      >
+        <FaArrowUp />
+      </button>
     </div>
   )
 }

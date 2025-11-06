@@ -13,7 +13,12 @@ import {
   FaCreditCard, 
   FaLock, 
   FaExclamationTriangle,
-  FaShieldAlt 
+  FaShieldAlt,
+  FaQrcode,
+  FaMobile,
+  FaCreditCard as FaCard,
+  FaMoneyBillWave,
+  FaBitcoin
 } from "react-icons/fa";
 import { useCart } from '../context/CartContext'
 import { useAuth } from '../context/AuthContext'
@@ -27,8 +32,7 @@ const Cart = () => {
     updateQuantity, 
     removeFromCart, 
     clearCart, 
-    getCartTotal, 
-    getCartCount,
+    getCartTotal,
     isUpdating 
   } = useCart()
   
@@ -41,6 +45,9 @@ const Cart = () => {
   const [couponApplied, setCouponApplied] = useState(false)
   const [discount, setDiscount] = useState(0)
   const [showConfirmClear, setShowConfirmClear] = useState(false)
+  const [showPaymentModal, setShowPaymentModal] = useState(false)
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('')
+  const [paymentSuccess, setPaymentSuccess] = useState(false)
 
   // Mock suggested products
   const mockSuggestedProducts = [
@@ -48,23 +55,32 @@ const Cart = () => {
       id: 101,
       name: "Organic Honey",
       price: 12.99,
-      image: "/images/products/honey.jpg",
+      image: "https://images.unsplash.com/photo-1587049352846-4a78e9f5216e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
       category: "other"
     },
     {
       id: 102,
       name: "Fresh Basil",
       price: 3.49,
-      image: "/images/products/basil.jpg",
+      image: "https://images.unsplash.com/photo-1618375569909-3c8616cf6c9b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
       category: "herbs"
     },
     {
       id: 103,
       name: "Organic Potatoes",
       price: 4.99,
-      image: "/images/products/potatoes.jpg",
+      image: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
       category: "vegetables"
     }
+  ]
+
+  // Payment methods
+  const paymentMethods = [
+    { id: 'card', name: 'Credit/Debit Card', icon: FaCard },
+    { id: 'upi', name: 'UPI Payment', icon: FaMobile },
+    { id: 'qr', name: 'QR Code', icon: FaQrcode },
+    { id: 'cod', name: 'Cash on Delivery', icon: FaMoneyBillWave },
+    { id: 'crypto', name: 'Cryptocurrency', icon: FaBitcoin }
   ]
 
   useEffect(() => {
@@ -78,6 +94,9 @@ const Cart = () => {
   const shipping = subtotal > 50 ? 0 : 5.99
   const tax = subtotal * 0.08 // 8% tax
   const total = subtotal + shipping + tax - discount
+
+  // Calculate cart items count
+  const cartItemsCount = cartItems.reduce((total, item) => total + item.quantity, 0)
 
   const handleQuantityChange = (productId, newQuantity) => {
     if (newQuantity < 1) return
@@ -103,12 +122,26 @@ const Cart = () => {
       return
     }
 
+    setShowPaymentModal(true)
+  }
+
+  const handlePayment = (method) => {
+    setSelectedPaymentMethod(method)
     setIsCheckingOut(true)
-    // Simulate checkout process
+    
+    // Simulate payment processing
     setTimeout(() => {
       setIsCheckingOut(false)
-      navigate('/checkout')
-    }, 2000)
+      setPaymentSuccess(true)
+      
+      // Clear cart after successful payment
+      setTimeout(() => {
+        clearCart()
+        setShowPaymentModal(false)
+        setPaymentSuccess(false)
+        navigate('/order-success')
+      }, 3000)
+    }, 3000)
   }
 
   const handleContinueShopping = () => {
@@ -131,6 +164,104 @@ const Cart = () => {
 
   const savings = getSavings()
 
+  // Fake QR Code Component
+  const FakeQRCode = () => (
+    <div className="fake-qr-code">
+      <div className="qr-container">
+        <div className="qr-pattern">
+          <div className="qr-corner top-left"></div>
+          <div className="qr-corner top-right"></div>
+          <div className="qr-corner bottom-left"></div>
+          <div className="qr-grid">
+            {Array.from({ length: 25 }).map((_, i) => (
+              <div key={i} className={`qr-cell ${Math.random() > 0.5 ? 'filled' : ''}`}></div>
+            ))}
+          </div>
+        </div>
+        <div className="qr-text">
+          <FaQrcode className="qr-icon" />
+          <p>Scan to Pay ₹{(total * 83).toFixed(2)}</p>
+          <small>UPI ID: greenvalleyorganic@paytm</small>
+        </div>
+      </div>
+    </div>
+  )
+
+  // Fake Card Payment Form
+  const FakeCardPayment = () => (
+    <div className="fake-card-payment">
+      <div className="card-form">
+        <div className="form-group">
+          <label>Card Number</label>
+          <input type="text" value="4242 4242 4242 4242" readOnly />
+        </div>
+        <div className="form-row">
+          <div className="form-group">
+            <label>Expiry Date</label>
+            <input type="text" value="12/25" readOnly />
+          </div>
+          <div className="form-group">
+            <label>CVV</label>
+            <input type="text" value="123" readOnly />
+          </div>
+        </div>
+        <div className="form-group">
+          <label>Cardholder Name</label>
+          <input type="text" value="JOHN DOE" readOnly />
+        </div>
+      </div>
+    </div>
+  )
+
+  // Fake UPI Payment
+  const FakeUPIPayment = () => (
+    <div className="fake-upi-payment">
+      <div className="upi-methods">
+        <div className="upi-option">
+          <img src="/icons/gpay.png" alt="Google Pay" />
+          <span>Google Pay</span>
+        </div>
+        <div className="upi-option">
+          <img src="/icons/phonepe.png" alt="PhonePe" />
+          <span>PhonePe</span>
+        </div>
+        <div className="upi-option">
+          <img src="/icons/paytm.png" alt="Paytm" />
+          <span>Paytm</span>
+        </div>
+        <div className="upi-option">
+          <img src="/icons/bhim.png" alt="BHIM UPI" />
+          <span>BHIM UPI</span>
+        </div>
+      </div>
+      <div className="upi-id">
+        <strong>UPI ID:</strong> greenvalleyorganic@okhdfcbank
+      </div>
+    </div>
+  )
+
+  // Fake Crypto Payment
+  const FakeCryptoPayment = () => (
+    <div className="fake-crypto-payment">
+      <div className="crypto-address">
+        <label>Bitcoin Address</label>
+        <div className="address-box">
+          bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh
+        </div>
+      </div>
+      <div className="crypto-amount">
+        <label>Amount</label>
+        <div className="amount-box">
+          {(total * 0.000025).toFixed(6)} BTC
+        </div>
+      </div>
+      <div className="crypto-note">
+        <FaExclamationTriangle />
+        <small>Payment will be confirmed after 3 network confirmations</small>
+      </div>
+    </div>
+  )
+
   if (isUpdating) {
     return (
       <div className="cart-page">
@@ -141,7 +272,7 @@ const Cart = () => {
     )
   }
 
-  if (cartItems.length === 0) {
+  if (cartItems.length === 0 && !paymentSuccess) {
     return (
       <div className="cart-page">
         <div className="container">
@@ -214,7 +345,7 @@ const Cart = () => {
           <div className="cart-items-section">
             <div className="section-header">
               <h2>
-                Your Items ({getCartCount()} {getCartCount() === 1 ? 'item' : 'items'})
+                Your Items ({cartItemsCount} {cartItemsCount === 1 ? 'item' : 'items'})
               </h2>
               {savings > 0 && (
                 <div className="savings-badge">
@@ -315,7 +446,7 @@ const Cart = () => {
               {/* Pricing Breakdown */}
               <div className="price-breakdown">
                 <div className="price-row">
-                  <span>Subtotal ({getCartCount()} items)</span>
+                  <span>Subtotal ({cartItemsCount} items)</span>
                   <span>${subtotal.toFixed(2)}</span>
                 </div>
 
@@ -436,6 +567,78 @@ const Cart = () => {
             )}
           </div>
         </div>
+
+        {/* Payment Modal */}
+        {showPaymentModal && (
+          <div className="modal-overlay">
+            <div className="payment-modal">
+              {paymentSuccess ? (
+                <div className="payment-success">
+                  <div className="success-icon">
+                    <FaShieldAlt />
+                  </div>
+                  <h3>Payment Successful!</h3>
+                  <p>Thank you for your order. Your payment has been processed successfully.</p>
+                  <div className="order-details">
+                    <p><strong>Order Total:</strong> ${total.toFixed(2)}</p>
+                    <p><strong>Payment Method:</strong> {selectedPaymentMethod}</p>
+                  </div>
+                  <Loading message="Redirecting to order confirmation..." />
+                </div>
+              ) : (
+                <>
+                  <div className="modal-header">
+                    <h3>Complete Your Payment</h3>
+                    <p>Total Amount: <strong>${total.toFixed(2)}</strong></p>
+                  </div>
+
+                  <div className="payment-methods">
+                    {paymentMethods.map(method => {
+                      const MethodIcon = method.icon
+                      return (
+                        <div
+                          key={method.id}
+                          className={`payment-method ${selectedPaymentMethod === method.id ? 'selected' : ''}`}
+                          onClick={() => setSelectedPaymentMethod(method.id)}
+                        >
+                          <MethodIcon />
+                          <span>{method.name}</span>
+                        </div>
+                      )
+                    })}
+                  </div>
+
+                  {selectedPaymentMethod === 'qr' && <FakeQRCode />}
+                  {selectedPaymentMethod === 'card' && <FakeCardPayment />}
+                  {selectedPaymentMethod === 'upi' && <FakeUPIPayment />}
+                  {selectedPaymentMethod === 'crypto' && <FakeCryptoPayment />}
+
+                  {selectedPaymentMethod && (
+                    <div className="payment-actions">
+                      <button
+                        className="btn-secondary"
+                        onClick={() => setShowPaymentModal(false)}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        className="btn-primary"
+                        onClick={() => handlePayment(selectedPaymentMethod)}
+                        disabled={isCheckingOut}
+                      >
+                        {isCheckingOut ? (
+                          <Loading size="small" />
+                        ) : (
+                          `Pay $${total.toFixed(2)}`
+                        )}
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Confirm Clear Cart Modal */}
         {showConfirmClear && (

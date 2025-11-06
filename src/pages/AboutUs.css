@@ -1,180 +1,168 @@
-/* AboutUs.css */
+/* AboutUs.css - Responsive */
 .about-us-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f8fff8 0%, #f0f8f0 50%, #e8f5e8 100%);
-  position: relative;
+  background: linear-gradient(135deg, #f8fff8 0%, #f0f8f0 100%);
 }
 
 /* Developer Credit */
 .developer-credit {
   position: fixed;
-  top: 20px;
-  right: 20px;
-  background: rgba(42, 107, 65, 0.9);
+  top: 10px;
+  right: 10px;
+  background: rgba(76, 175, 80, 0.9);
   color: white;
-  padding: 8px 15px;
+  padding: 0.5rem 1rem;
   border-radius: 20px;
-  font-size: 12px;
+  font-size: 0.8rem;
   font-weight: 500;
   z-index: 1000;
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  animation: fadeInDown 1s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Hero Section */
 .about-hero {
-  padding: 120px 0 80px;
-  background: linear-gradient(135deg, #2a6b41 0%, #4a7c1f 50%, #8bc34a 100%);
+  padding: 6rem 1rem 4rem;
+  background: linear-gradient(135deg, #2d5016 0%, #4CAF50 100%);
   color: white;
   position: relative;
   overflow: hidden;
 }
 
-.about-hero::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
-}
-
 .hero-content {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 60px;
+  gap: 3rem;
   align-items: center;
-  position: relative;
+}
+
+.hero-text {
   z-index: 2;
 }
 
 .hero-title {
-  font-size: 3.5rem;
+  font-size: 3rem;
   font-weight: 700;
   margin-bottom: 1rem;
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 1rem;
 }
 
 .title-icon {
   font-size: 2.5rem;
-  color: #8bc34a;
+  color: #8BC34A;
 }
 
 .hero-subtitle {
   font-size: 1.5rem;
-  font-weight: 300;
+  font-weight: 600;
   margin-bottom: 2rem;
-  opacity: 0.9;
+  color: #e8f5e8;
 }
 
 .hero-description {
   font-size: 1.1rem;
-  line-height: 1.8;
-  opacity: 0.95;
+  line-height: 1.7;
+}
+
+.hero-description p {
+  margin-bottom: 1rem;
 }
 
 .hero-description strong {
-  color: #8bc34a;
+  color: #8BC34A;
 }
 
 .hero-image {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  height: 300px;
 }
 
 .floating-cards {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 1.5rem;
+  position: relative;
 }
 
 .card {
   display: flex;
   align-items: center;
-  gap: 15px;
-  padding: 20px 25px;
+  gap: 1rem;
+  padding: 1.5rem;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border-radius: 15px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
-  font-weight: 500;
+  font-weight: 600;
+  min-width: 250px;
   transition: all 0.3s ease;
-  animation: float 3s ease-in-out infinite;
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(10px);
+  background: rgba(255, 255, 255, 0.15);
 }
-
-.medicine-card { animation-delay: 0s; }
-.farming-card { animation-delay: 0.5s; }
-.health-card { animation-delay: 1s; }
 
 .card svg {
   font-size: 1.5rem;
+  color: #8BC34A;
 }
 
 /* Mission Section */
 .mission-section {
-  padding: 80px 0;
+  padding: 4rem 1rem;
   background: white;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .mission-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  max-width: 1000px;
-  margin: 0 auto;
+  gap: 2rem;
 }
 
 .mission-card {
-  padding: 40px;
-  background: linear-gradient(135deg, #f8fff8 0%, #f0f8f0 100%);
-  border-radius: 20px;
-  border: 1px solid #e8f5e8;
-  box-shadow: 0 10px 30px rgba(139, 195, 74, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.mission-card:hover {
-  transform: translateY(-10px);
+  background: #f8fff8;
+  padding: 2.5rem;
+  border-radius: 15px;
+  border-left: 4px solid #4CAF50;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
 }
 
 .mission-card h2 {
-  color: #2a6b41;
-  font-size: 1.8rem;
+  color: #2d5016;
+  font-size: 1.5rem;
   margin-bottom: 1rem;
-  font-weight: 600;
 }
 
 .mission-card p {
-  color: #555;
-  line-height: 1.7;
-  font-size: 1.05rem;
+  color: #4a5568;
+  line-height: 1.6;
+  font-size: 1rem;
 }
 
 /* Features Section */
 .features-section {
-  padding: 80px 0;
-  background: linear-gradient(135deg, #f8fff8 0%, #f0f8f0 100%);
+  padding: 4rem 1rem;
+  background: #f8f9fa;
 }
 
 .section-title {
   text-align: center;
   font-size: 2.5rem;
-  color: #2a6b41;
+  color: #2d5016;
   margin-bottom: 3rem;
   font-weight: 700;
 }
@@ -182,107 +170,93 @@
 .features-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
-  max-width: 1200px;
-  margin: 0 auto;
+  gap: 2rem;
 }
 
 .feature-card {
   background: white;
-  padding: 40px 30px;
-  border-radius: 20px;
+  padding: 2.5rem;
+  border-radius: 15px;
   text-align: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e8f5e8;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.feature-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #4a7c1f, #8bc34a);
+  border-top: 4px solid #4CAF50;
 }
 
 .feature-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
 .feature-icon {
   font-size: 3rem;
-  color: #4a7c1f;
+  color: #4CAF50;
   margin-bottom: 1.5rem;
 }
 
 .feature-card h3 {
-  color: #2a6b41;
-  font-size: 1.4rem;
+  color: #2d5016;
+  font-size: 1.3rem;
   margin-bottom: 1rem;
   font-weight: 600;
 }
 
 .feature-card p {
-  color: #666;
+  color: #4a5568;
   line-height: 1.6;
+  font-size: 0.95rem;
 }
 
 /* Team Section */
 .team-section {
-  padding: 80px 0;
+  padding: 4rem 1rem;
   background: white;
 }
 
 .section-header {
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
 }
 
 .section-icon {
   font-size: 3rem;
-  color: #4a7c1f;
+  color: #4CAF50;
   margin-bottom: 1rem;
 }
 
 .section-subtitle {
   font-size: 1.2rem;
-  color: #666;
+  color: #4a5568;
   max-width: 600px;
   margin: 0 auto;
+  line-height: 1.6;
 }
 
 .team-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 30px;
-  max-width: 1200px;
-  margin: 0 auto;
+  gap: 2rem;
 }
 
 .team-card {
-  background: linear-gradient(135deg, #f8fff8 0%, #f0f8f0 100%);
-  padding: 40px 30px;
-  border-radius: 20px;
+  background: #f8fff8;
+  padding: 2rem;
+  border-radius: 15px;
   text-align: center;
-  border: 1px solid #e8f5e8;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
-  position: relative;
+  border: 1px solid #e8f5e8;
 }
 
 .team-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(139, 195, 74, 0.2);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
 .member-avatar {
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, #4a7c1f, #8bc34a);
+  background: #4CAF50;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -293,44 +267,43 @@
 }
 
 .team-card h3 {
-  color: #2a6b41;
-  font-size: 1.4rem;
+  color: #2d5016;
+  font-size: 1.3rem;
   margin-bottom: 0.5rem;
   font-weight: 600;
 }
 
 .member-role {
-  color: #4a7c1f;
-  font-weight: 500;
+  color: #4CAF50;
+  font-weight: 600;
   margin-bottom: 1rem;
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 .member-description {
-  color: #666;
-  line-height: 1.6;
-  font-size: 0.95rem;
+  color: #4a5568;
+  line-height: 1.5;
+  font-size: 0.9rem;
 }
 
 /* College Section */
 .college-section {
-  padding: 80px 0;
-  background: linear-gradient(135deg, #2a6b41 0%, #4a7c1f 100%);
+  padding: 4rem 1rem;
+  background: linear-gradient(135deg, #2d5016 0%, #4CAF50 100%);
   color: white;
 }
 
 .college-content {
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 3rem;
   max-width: 800px;
   margin: 0 auto;
-  text-align: center;
 }
 
 .college-icon {
   font-size: 4rem;
-  color: #8bc34a;
+  color: #8BC34A;
   flex-shrink: 0;
 }
 
@@ -342,100 +315,96 @@
 
 .college-text p {
   font-size: 1.1rem;
-  line-height: 1.7;
-  opacity: 0.9;
+  line-height: 1.6;
+  color: #e8f5e8;
 }
 
 /* Stats Section */
 .stats-section {
-  padding: 60px 0;
-  background: white;
+  padding: 4rem 1rem;
+  background: #f8f9fa;
 }
 
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 40px;
-  max-width: 1000px;
-  margin: 0 auto;
+  gap: 2rem;
 }
 
 .stat-item {
   text-align: center;
-  padding: 30px 20px;
+  padding: 2rem;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
 .stat-number {
   font-size: 3rem;
   font-weight: 700;
-  color: #2a6b41;
+  color: #4CAF50;
   margin-bottom: 0.5rem;
 }
 
 .stat-label {
   font-size: 1.1rem;
-  color: #666;
-  font-weight: 500;
-}
-
-/* Animations */
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-/* Container */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+  color: #2d5016;
+  font-weight: 600;
 }
 
 /* Responsive Design */
-@media (max-width: 968px) {
+@media (max-width: 1024px) {
   .hero-content {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 40px;
+    gap: 2rem;
   }
   
   .hero-title {
     font-size: 2.5rem;
-    justify-content: center;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.3rem;
   }
   
   .mission-grid {
-    grid-template-columns: 1fr;
-    gap: 30px;
+    gap: 1.5rem;
   }
   
-  .college-content {
-    flex-direction: column;
-    gap: 20px;
+  .mission-card {
+    padding: 2rem;
   }
 }
 
 @media (max-width: 768px) {
+  .developer-credit {
+    position: static;
+    text-align: center;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+  }
+  
   .about-hero {
-    padding: 100px 0 60px;
+    padding: 5rem 1rem 3rem;
+  }
+  
+  .hero-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 2rem;
   }
   
   .hero-title {
+    font-size: 2rem;
+    justify-content: center;
+  }
+  
+  .title-icon {
     font-size: 2rem;
   }
   
@@ -443,33 +412,229 @@
     font-size: 1.2rem;
   }
   
-  .section-title {
-    font-size: 2rem;
+  .hero-description {
+    font-size: 1rem;
   }
   
-  .developer-credit {
-    position: relative;
-    top: auto;
-    right: auto;
-    text-align: center;
-    margin-bottom: 20px;
-    background: #2a6b41;
+  .hero-image {
+    height: auto;
+    order: -1;
   }
-}
-
-@media (max-width: 480px) {
-  .mission-card,
-  .feature-card,
+  
+  .floating-cards {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .card {
+    min-width: 200px;
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem 1rem;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .mission-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .mission-card {
+    padding: 1.5rem;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .feature-card {
+    padding: 2rem;
+  }
+  
+  .team-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+  
   .team-card {
-    padding: 30px 20px;
+    padding: 1.5rem;
+  }
+  
+  .college-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 2rem;
+  }
+  
+  .college-text h2 {
+    font-size: 1.5rem;
+  }
+  
+  .college-text p {
+    font-size: 1rem;
   }
   
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 1.5rem;
+  }
+  
+  .stat-item {
+    padding: 1.5rem;
+  }
+  
+  .stat-number {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .about-hero {
+    padding: 4rem 1rem 2rem;
+  }
+  
+  .hero-title {
+    font-size: 1.75rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .floating-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .card {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .features-grid,
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .section-title {
+    font-size: 1.75rem;
+  }
+  
+  .mission-card h2,
+  .feature-card h3,
+  .team-card h3 {
+    font-size: 1.2rem;
+  }
+  
+  .member-avatar {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+  
+  .college-icon {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .developer-credit {
+    font-size: 0.7rem;
+    padding: 0.4rem 0.8rem;
+  }
+  
+  .about-hero {
+    padding: 3rem 0.5rem 1.5rem;
+  }
+  
+  .hero-title {
+    font-size: 1.5rem;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+  
+  .mission-section,
+  .features-section,
+  .team-section,
+  .college-section,
+  .stats-section {
+    padding: 2rem 0.5rem;
+  }
+  
+  .mission-card,
+  .feature-card,
+  .team-card {
+    padding: 1.25rem;
+  }
+  
+  .card {
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .stat-item {
+    padding: 1.25rem;
   }
   
   .stat-number {
     font-size: 2rem;
   }
+  
+  .stat-label {
+    font-size: 1rem;
+  }
+  
+  .section-header {
+    margin-bottom: 2rem;
+  }
+  
+  .section-icon {
+    font-size: 2.5rem;
+  }
+  
+  .section-subtitle {
+    font-size: 1rem;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .card:hover,
+  .feature-card:hover,
+  .team-card:hover,
+  .stat-item:hover {
+    transform: none;
+  }
+  
+  .card:active,
+  .feature-card:active,
+  .team-card:active {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* Container utility */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  width: 100%;
 }

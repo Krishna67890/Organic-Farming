@@ -1,5 +1,29 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { 
+  FaLeaf, 
+  FaSeedling, 
+  FaRecycle, 
+  FaTruck, 
+  FaAward, 
+  FaHeart,
+  FaArrowRight,
+  FaStar,
+  FaShoppingCart,
+  FaClock,
+  FaUser,
+  FaMapMarkerAlt,
+  FaPhone,
+  FaEnvelope,
+  FaSun,
+  FaMoon,
+  FaCloudRain,
+  FaSnowflake,
+  FaTree,
+  FaWater,
+  FaBug,
+  FaUsers
+} from 'react-icons/fa'
 import Hero from '../components/home/Hero/Hero'
 import Features from '../components/home/Features/Features'
 import ProductsShowcase from '../components/home/ProductsShowcase/ProductsShowcase'
@@ -14,6 +38,7 @@ import './Home.css'
 const Home = () => {
   const [seasonalProducts, setSeasonalProducts] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [activeSeason, setActiveSeason] = useState('spring')
   const { addToCart } = useCart()
 
   useEffect(() => {
@@ -21,7 +46,6 @@ const Home = () => {
     const fetchSeasonalProducts = async () => {
       setIsLoading(true)
       try {
-        // In real app, this would be an API call
         setTimeout(() => {
           const seasonal = featuredProducts.filter(product => 
             product.seasonal === getCurrentSeason()
@@ -36,6 +60,7 @@ const Home = () => {
     }
 
     fetchSeasonalProducts()
+    setActiveSeason(getCurrentSeason())
   }, [])
 
   const getCurrentSeason = () => {
@@ -54,85 +79,258 @@ const Home = () => {
       image: product.image,
       quantity: 1
     })
-    
-    // Show notification (you can implement a toast notification)
-    console.log(`${product.name} added to cart!`)
   }
 
-  const featuredSections = [
+  // Season data with icons
+  const seasons = {
+    spring: { icon: FaSeedling, color: '#4caf50', name: 'Spring Harvest' },
+    summer: { icon: FaSun, color: '#ff9800', name: 'Summer Bounty' },
+    autumn: { icon: FaTree, color: '#795548', name: 'Autumn Harvest' },
+    winter: { icon: FaSnowflake, color: '#2196f3', name: 'Winter Greens' }
+  }
+
+  // Organic farming pillars
+  const farmingPillars = [
     {
-      title: "Organic Vegetables",
-      description: "Fresh from our fields to your table",
-      image: "https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
-      link: "/products?category=vegetables"
+      icon: FaLeaf,
+      title: "Soil Health",
+      description: "Building living soil through composting and no-till practices",
+      features: ["Cover Cropping", "Vermicompost", "Mycorrhizal Networks"],
+      image: "https://images.unsplash.com/photo-1574943320219-553eb213f72d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
     },
     {
-      title: "Sustainable Farming",
-      description: "Learn about our eco-friendly practices",
-      image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
-      link: "/farming"
+      icon: FaWater,
+      title: "Water Wisdom",
+      description: "Conserving water through smart irrigation and rainwater harvesting",
+      features: ["Drip Irrigation", "Rainwater Collection", "Mulching"],
+      image: "https://images.unsplash.com/photo-1558470570-c9a5a5ade867?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
     },
     {
-      title: "Farm Fresh Dairy",
-      description: "Pure, natural dairy products",
-      image: "https://images.unsplash.com/photo-1587049633312-d628ae50a8ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
-      link: "/products?category=dairy"
+      icon: FaBug,
+      title: "Natural Pest Control",
+      description: "Using beneficial insects and companion planting instead of pesticides",
+      features: ["Ladybugs", "Companion Plants", "Neem Oil"],
+      image: "https://images.unsplash.com/photo-1597848212624-e6d4bd7e1e26?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    },
+    {
+      icon: FaRecycle,
+      title: "Closed Loop System",
+      description: "Zero waste farming where everything is reused and recycled",
+      features: ["Compost System", "Crop Rotation", "Green Manure"],
+      image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    }
+  ]
+
+  // Daily farm activities
+  const farmActivities = [
+    {
+      time: "6:00 AM",
+      activity: "Morning Harvest",
+      description: "Picking vegetables at peak freshness as the sun rises",
+      image: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      time: "9:00 AM",
+      activity: "Soil Preparation",
+      description: "Turning compost and preparing beds for new plantings",
+      image: "https://images.unsplash.com/photo-1574943320219-553eb213f72d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      time: "2:00 PM",
+      activity: "Quality Check",
+      description: "Inspecting and packing orders for same-day delivery",
+      image: "https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
     }
   ]
 
   return (
-    <div className="home">
-      {/* Hero Section */}
-      <Hero />
-      
-      {/* Stats Section */}
-      <Stats stats={farmStats} />
-      
-      {/* Features Section */}
-      <Features />
-      
-      {/* Featured Products */}
-      <section className="featured-products-section">
-        <div className="container">
-          <div className="section-header">
-            <h2>Featured Products</h2>
-            <p>Handpicked organic goodness from our farm</p>
-            <Link to="/products" className="view-all-btn">
-              View All Products
-            </Link>
+    <div className="organic-home">
+      {/* Hero Section with Farm Background */}
+      <section className="farm-hero">
+        <div className="hero-background">
+          <div className="hero-overlay">
+            <div className="container">
+              <div className="hero-content">
+                <div className="hero-badge">
+                  <FaLeaf />
+                  <span>Since 2010</span>
+                </div>
+                <h1>Nourishing Communities Through Organic Farming</h1>
+                <p>Experience the difference of truly organic produce, grown with care and harvested at peak perfection from our family farm to your table.</p>
+                <div className="hero-actions">
+                  <Link to="/products" className="btn btn-primary">
+                    <FaShoppingCart />
+                    Shop Fresh Produce
+                  </Link>
+                  <Link to="/about" className="btn btn-secondary">
+                    <FaUsers />
+                    Our Farming Story
+                  </Link>
+                </div>
+                <div className="hero-features">
+                  <div className="feature">
+                    <FaLeaf />
+                    <span>USDA Certified Organic</span>
+                  </div>
+                  <div className="feature">
+                    <FaTruck />
+                    <span>Farm-Fresh Delivery</span>
+                  </div>
+                  <div className="feature">
+                    <FaAward />
+                    <span>Sustainable Practices</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <ProductsShowcase 
-            products={featuredProducts} 
-            onQuickAdd={handleQuickAdd}
-          />
         </div>
       </section>
 
-      {/* Seasonal Products */}
-      <SeasonalProducts 
-        products={seasonalProducts}
-        season={getCurrentSeason()}
-        loading={isLoading}
-        onQuickAdd={handleQuickAdd}
-      />
-
-      {/* Featured Sections Grid */}
-      <section className="featured-sections">
+      {/* Seasonal Spotlight */}
+      <section className="seasonal-spotlight">
         <div className="container">
-          <h2>Explore Our Farm</h2>
-          <div className="sections-grid">
-            {featuredSections.map((section, index) => (
-              <div key={index} className="section-card">
-                <div 
-                  className="section-image" 
-                  style={{ backgroundImage: `url(${section.image})` }}
-                />
-                <div className="section-content">
-                  <h3>{section.title}</h3>
-                  <p>{section.description}</p>
-                  <Link to={section.link} className="section-link">
-                    Discover More
-                  </Link>
+          <div className="section-header">
+            <div className="season-indicator">
+              {Object.entries(seasons).map(([key, season]) => {
+                const SeasonIcon = season.icon
+                return (
+                  <div 
+                    key={key}
+                    className={`season-tab ${activeSeason === key ? 'active' : ''}`}
+                    onClick={() => setActiveSeason(key)}
+                    style={{ '--season-color': season.color }}
+                  >
+                    <SeasonIcon />
+                    <span>{season.name}</span>
+                  </div>
+                )
+              })}
+            </div>
+            <h2>Seasonal Harvest Spotlight</h2>
+            <p>Discover what's fresh and abundant this {seasons[activeSeason].name.toLowerCase()}</p>
+          </div>
+          
+          <div className="seasonal-content">
+            <div className="seasonal-info">
+              <div className="seasonal-badge" style={{ backgroundColor: seasons[activeSeason].color }}>
+                <span>In Season Now</span>
+              </div>
+              <h3>Best of {seasons[activeSeason].name}</h3>
+              <p>Our {activeSeason} harvest brings you the most flavorful and nutrient-dense produce, grown naturally without synthetic chemicals.</p>
+              
+              <div className="seasonal-tips">
+                <h4>Seasonal Tips:</h4>
+                <ul>
+                  {activeSeason === 'spring' && (
+                    <>
+                      <li>Perfect for fresh salads and light cooking</li>
+                      <li>Great time for planting your own garden</li>
+                      <li>Enjoy the crisp, tender textures</li>
+                    </>
+                  )}
+                  {activeSeason === 'summer' && (
+                    <>
+                      <li>Ideal for refreshing juices and smoothies</li>
+                      <li>Perfect for outdoor grilling</li>
+                      <li>Stay hydrated with water-rich produce</li>
+                    </>
+                  )}
+                  {activeSeason === 'autumn' && (
+                    <>
+                      <li>Excellent for roasting and soups</li>
+                      <li>Store root vegetables for winter</li>
+                      <li>Rich, earthy flavors develop</li>
+                    </>
+                  )}
+                  {activeSeason === 'winter' && (
+                    <>
+                      <li>Great for hearty stews and baking</li>
+                      <li>Focus on storage crops and greens</li>
+                      <li>Boost immunity with winter citrus</li>
+                    </>
+                  )}
+                </ul>
+              </div>
+            </div>
+            
+            <div className="seasonal-products">
+              <ProductsShowcase 
+                products={seasonalProducts.slice(0, 3)}
+                onQuickAdd={handleQuickAdd}
+                loading={isLoading}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Farming Pillars */}
+      <section className="farming-pillars">
+        <div className="container">
+          <div className="section-header">
+            <h2>Our Organic Farming Philosophy</h2>
+            <p>Four pillars that guide everything we do at Green Valley Organic Farm</p>
+          </div>
+          
+          <div className="pillars-grid">
+            {farmingPillars.map((pillar, index) => {
+              const PillarIcon = pillar.icon
+              return (
+                <div key={index} className="pillar-card">
+                  <div className="pillar-image">
+                    <img src={pillar.image} alt={pillar.title} />
+                    <div className="pillar-icon">
+                      <PillarIcon />
+                    </div>
+                  </div>
+                  
+                  <div className="pillar-content">
+                    <h3>{pillar.title}</h3>
+                    <p>{pillar.description}</p>
+                    
+                    <div className="pillar-features">
+                      {pillar.features.map((feature, featureIndex) => (
+                        <div key={featureIndex} className="feature-tag">
+                          <FaStar />
+                          <span>{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    <button className="pillar-learn-more">
+                      Learn More <FaArrowRight />
+                    </button>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Farm Day Timeline */}
+      <section className="farm-day">
+        <div className="container">
+          <div className="section-header">
+            <h2>A Day on Our Organic Farm</h2>
+            <p>Follow the rhythm of our daily activities that bring fresh food to your table</p>
+          </div>
+          
+          <div className="timeline">
+            {farmActivities.map((activity, index) => (
+              <div key={index} className="timeline-item">
+                <div className="timeline-marker">
+                  <div className="time-badge">{activity.time}</div>
+                </div>
+                <div className="timeline-content">
+                  <div className="activity-image">
+                    <img src={activity.image} alt={activity.activity} />
+                  </div>
+                  <div className="activity-info">
+                    <h3>{activity.activity}</h3>
+                    <p>{activity.description}</p>
+                  </div>
                 </div>
               </div>
             ))}
@@ -140,29 +338,104 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Quick Stats */}
+      <section className="organic-stats">
+        <div className="container">
+          <Stats stats={farmStats} />
+        </div>
+      </section>
+
+      {/* Featured Products */}
+      <section className="featured-produce">
+        <div className="container">
+          <div className="section-header">
+            <h2>Farm-Fresh Favorites</h2>
+            <p>Customer favorites that are always in season at our farm</p>
+          </div>
+          <ProductsShowcase 
+            products={featuredProducts.slice(0, 6)}
+            onQuickAdd={handleQuickAdd}
+          />
+        </div>
+      </section>
+
+      {/* Farm to Table Journey */}
+      <section className="farm-journey">
+        <div className="container">
+          <div className="journey-header">
+            <h2>From Our Fields to Your Family</h2>
+            <p>Transparent journey of your food from seed to plate</p>
+          </div>
+          
+          <div className="journey-steps">
+            <div className="journey-step">
+              <div className="step-number">01</div>
+              <div className="step-icon">
+                <FaSeedling />
+              </div>
+              <h3>Seed Selection</h3>
+              <p>Choosing heirloom and organic seeds for maximum flavor and nutrition</p>
+            </div>
+            
+            <div className="journey-step">
+              <div className="step-number">02</div>
+              <div className="step-icon">
+                <FaLeaf />
+              </div>
+              <h3>Natural Growth</h3>
+              <p>Nurturing plants with compost tea and natural amendments</p>
+            </div>
+            
+            <div className="journey-step">
+              <div className="step-number">03</div>
+              <div className="step-icon">
+                <FaRecycle />
+              </div>
+              <h3>Sustainable Harvest</h3>
+              <p>Hand-picking at peak ripeness with minimal environmental impact</p>
+            </div>
+            
+            <div className="journey-step">
+              <div className="step-number">04</div>
+              <div className="step-icon">
+                <FaTruck />
+              </div>
+              <h3>Fresh Delivery</h3>
+              <p>Carbon-neutral delivery to preserve freshness and nutrients</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Testimonials */}
       <Testimonials />
 
-      {/* Newsletter */}
-      <Newsletter />
-
-      {/* CTA Section */}
-      <section className="cta-section">
+      {/* Final CTA */}
+      <section className="organic-cta">
         <div className="container">
           <div className="cta-content">
-            <h2>Ready to Experience Organic Goodness?</h2>
-            <p>Join our community of health-conscious individuals</p>
-            <div className="cta-buttons">
+            <div className="cta-badge">
+              <FaLeaf />
+              <span>Join the Organic Movement</span>
+            </div>
+            <h2>Ready to Taste the Difference?</h2>
+            <p>Experience food as nature intended - fresh, flavorful, and full of life.</p>
+            <div className="cta-actions">
               <Link to="/products" className="btn btn-primary">
-                Shop Now
+                <FaShoppingCart />
+                Start Your Organic Journey
               </Link>
-              <Link to="/about" className="btn btn-secondary">
-                Learn More
+              <Link to="/farming" className="btn btn-secondary">
+                <FaLeaf />
+                Learn About Our Farming
               </Link>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Newsletter */}
+      <Newsletter />
     </div>
   )
 }

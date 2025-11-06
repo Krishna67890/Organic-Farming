@@ -75,7 +75,7 @@ const Navbar = () => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY
-      setIsScrolled(scrollTop > 20) // Reduced from 50 to 20 for earlier effect
+      setIsScrolled(scrollTop > 20)
     }
 
     window.addEventListener('scroll', handleScroll)
@@ -129,9 +129,13 @@ const Navbar = () => {
     }, 200)
   }
 
-  // Navigation handler - FIXED
-  const handleNavigation = (path, event) => {
-    event.preventDefault()
+  // FIXED: Navigation handler - only prevent default for dropdown items
+  const handleNavigation = (path, event, isDropdownItem = false) => {
+    // Only prevent default for dropdown items to avoid double navigation
+    if (isDropdownItem) {
+      event.preventDefault()
+    }
+    
     closeMobileMenu()
     closeSearch()
     setActiveDropdown(null)
@@ -160,7 +164,7 @@ const Navbar = () => {
 
   return (
     <>
-      {/* Top Announcement Bar - Made smaller */}
+      {/* Top Announcement Bar */}
       <div className="announcement-bar">
         <div className="container">
           <div className="announcement-content">
@@ -170,7 +174,6 @@ const Navbar = () => {
                   key={index} 
                   to={offer.path}
                   className="announcement-item"
-                  onClick={(e) => handleNavigation(offer.path, e)}
                 >
                   {offer.text}
                 </Link>
@@ -186,7 +189,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Main Navbar - Made smaller */}
+      {/* Main Navbar */}
       <nav 
         ref={navbarRef}
         className={`navbar ${isScrolled ? 'scrolled' : ''} ${isMobileMenuOpen ? 'mobile-open' : ''}`}
@@ -197,7 +200,6 @@ const Navbar = () => {
             <Link 
               to="/" 
               className="navbar-brand"
-              onClick={(e) => handleNavigation('/', e)}
             >
               <FaLeaf className="brand-icon" />
               <div className="brand-text">
@@ -219,7 +221,6 @@ const Navbar = () => {
                     <Link
                       to={item.path}
                       className={`nav-link ${location.pathname === item.path ? 'active' : ''}`}
-                      onClick={(e) => handleNavigation(item.path, e)}
                     >
                       <span>{item.label}</span>
                       {item.type === 'dropdown' && (
@@ -237,7 +238,7 @@ const Navbar = () => {
                               key={dropIndex}
                               to={dropdownItem.path}
                               className="dropdown-item"
-                              onClick={(e) => handleNavigation(dropdownItem.path, e)}
+                              onClick={(e) => handleNavigation(dropdownItem.path, e, true)}
                             >
                               <DropdownIcon className="dropdown-icon" />
                               <span>{dropdownItem.label}</span>
@@ -267,7 +268,6 @@ const Navbar = () => {
                 to="/cart" 
                 className="action-btn cart-btn"
                 aria-label="Shopping Cart"
-                onClick={(e) => handleNavigation('/cart', e)}
               >
                 <FaShoppingCart />
                 {cartCount > 0 && (
@@ -309,7 +309,7 @@ const Navbar = () => {
                     <Link
                       to={item.path}
                       className={`mobile-nav-link ${location.pathname === item.path ? 'active' : ''}`}
-                      onClick={(e) => handleNavigation(item.path, e)}
+                      onClick={closeMobileMenu}
                     >
                       {item.label}
                     </Link>
@@ -324,7 +324,7 @@ const Navbar = () => {
                               key={dropIndex}
                               to={dropdownItem.path}
                               className="mobile-dropdown-item"
-                              onClick={(e) => handleNavigation(dropdownItem.path, e)}
+                              onClick={closeMobileMenu}
                             >
                               <DropdownIcon />
                               <span>{dropdownItem.label}</span>
@@ -355,7 +355,7 @@ const Navbar = () => {
                   <Link 
                     to="/auth" 
                     className="auth-btn"
-                    onClick={(e) => handleNavigation('/auth', e)}
+                    onClick={closeMobileMenu}
                   >
                     Sign In / Register
                   </Link>
