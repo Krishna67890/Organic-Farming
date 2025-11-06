@@ -24,8 +24,8 @@ const Hero = () => {
       title: "Fresh From Our",
       highlight: "Organic Farms",
       subtitle: "Experience the pure taste of nature with our hand-picked, sustainably grown organic produce delivered fresh to your doorstep.",
-      image: "/api/placeholder/1200/800",
-      bgImage: "linear-gradient(135deg, rgba(76, 175, 80, 0.9), rgba(139, 195, 74, 0.8))",
+      image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
+      bgImage: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
       cta: "Shop Fresh Produce",
       stats: "5000+ Happy Customers"
     },
@@ -34,8 +34,8 @@ const Hero = () => {
       title: "Seasonal",
       highlight: "Harvest Collection",
       subtitle: "Discover our limited edition seasonal picks, harvested at peak ripeness for maximum flavor and nutritional value.",
-      image: "/api/placeholder/1200/800",
-      bgImage: "linear-gradient(135deg, rgba(255, 152, 0, 0.9), rgba(255, 193, 7, 0.8))",
+      image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
+      bgImage: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
       cta: "View Seasonal Picks",
       stats: "100+ Organic Products"
     },
@@ -44,8 +44,8 @@ const Hero = () => {
       title: "Sustainable",
       highlight: "Farming Practices",
       subtitle: "Join us in our mission to protect the planet with eco-friendly farming methods that nurture the soil and ecosystem.",
-      image: "/api/placeholder/1200/800",
-      bgImage: "linear-gradient(135deg, rgba(56, 142, 60, 0.9), rgba(76, 175, 80, 0.8))",
+      image: "https://images.unsplash.com/photo-1574943320219-553eb213f72d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
+      bgImage: "https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
       cta: "Learn About Farming",
       stats: "15+ Years Experience"
     }
@@ -134,7 +134,9 @@ const Hero = () => {
           <div
             key={slide.id}
             className={`hero-slide ${currentSlide === index ? 'active' : ''}`}
-            style={{ backgroundImage: slide.bgImage }}
+            style={{ 
+              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${slide.bgImage})`
+            }}
           >
             <div className="container">
               <div className="hero-content">
