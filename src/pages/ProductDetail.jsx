@@ -11,7 +11,7 @@ import {
   FaStarHalfAlt,
   FaRegStar,
   FaTruck,
-  FaShield,
+  FaShieldAlt,
   FaRecycle,
   FaChevronLeft,
   FaChevronRight,
@@ -567,7 +567,7 @@ const ProductDetail = () => {
                 <span>Free shipping over $50</span>
               </div>
               <div className="trust-badge">
-                <FaShield />
+                <FaShieldAlt />
                 <span>Quality guarantee</span>
               </div>
               <div className="trust-badge">

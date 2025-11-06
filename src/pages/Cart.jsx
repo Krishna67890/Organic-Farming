@@ -5,16 +5,16 @@ import {
   FaPlus, 
   FaMinus, 
   FaShoppingBag, 
-  FaArrowLeft,
-  FaSeedling,
-  FaLeaf,
-  FaTruck,
-  FaShield,
-  FaRecycle,
-  FaCreditCard,
-  FaLock,
-  FaExclamationTriangle
-} from 'react-icons/fa'
+  FaArrowLeft, 
+  FaSeedling, 
+  FaLeaf, 
+  FaTruck, 
+  FaRecycle, 
+  FaCreditCard, 
+  FaLock, 
+  FaExclamationTriangle,
+  FaShieldAlt 
+} from "react-icons/fa";
 import { useCart } from '../context/CartContext'
 import { useAuth } from '../context/AuthContext'
 import Loading from '../components/common/Loading/Loading'
@@ -297,7 +297,7 @@ const Cart = () => {
                 <span>Free shipping over $50</span>
               </div>
               <div className="trust-badge">
-                <FaShield />
+                <FaShieldAlt />
                 <span>Quality guarantee</span>
               </div>
               <div className="trust-badge">
