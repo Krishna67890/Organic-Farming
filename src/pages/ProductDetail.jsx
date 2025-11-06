@@ -48,17 +48,17 @@ const ProductDetail = () => {
   const [imageZoom, setImageZoom] = useState(false)
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 })
 
-  // Mock product data - in real app, this would come from API
+  // Mock product data with ONLINE images - FIXED
   const mockProduct = {
     id: 1,
     name: "Organic Heirloom Tomatoes",
     price: 4.99,
     originalPrice: 6.99,
     images: [
-      "/images/products/tomatoes-1.jpg",
-      "/images/products/tomatoes-2.jpg",
-      "/images/products/tomatoes-3.jpg",
-      "/images/products/tomatoes-4.jpg"
+      "https://images.unsplash.com/photo-1546470427-e212b7d31055?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1561136594-7f68413baa99?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
     ],
     category: "vegetables",
     subcategory: "tomatoes",
@@ -130,13 +130,13 @@ const ProductDetail = () => {
     }
   ]
 
-  // Mock related products
+  // Mock related products with ONLINE images - FIXED
   const mockRelatedProducts = [
     {
       id: 2,
       name: "Fresh Organic Basil",
       price: 3.49,
-      image: "/images/products/basil.jpg",
+      image: "https://images.unsplash.com/photo-1618375569909-3c8616cf6c71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
       category: "herbs",
       organic: true,
       rating: 4.5,
@@ -146,7 +146,7 @@ const ProductDetail = () => {
       id: 3,
       name: "Organic Garlic",
       price: 2.99,
-      image: "/images/products/garlic.jpg",
+      image: "https://images.unsplash.com/photo-1587049633312-d628ae50a8ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
       category: "vegetables",
       organic: true,
       rating: 4.8,
@@ -156,7 +156,7 @@ const ProductDetail = () => {
       id: 4,
       name: "Organic Cucumbers",
       price: 3.99,
-      image: "/images/products/cucumbers.jpg",
+      image: "https://images.unsplash.com/photo-1562243061-204d6d2d9293?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
       category: "vegetables",
       organic: true,
       rating: 4.6,
@@ -166,7 +166,7 @@ const ProductDetail = () => {
       id: 5,
       name: "Organic Bell Peppers",
       price: 5.49,
-      image: "/images/products/peppers.jpg",
+      image: "https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
       category: "vegetables",
       organic: true,
       rating: 4.4,
@@ -195,62 +195,68 @@ const ProductDetail = () => {
     loadProduct()
   }, [id])
 
-  // Image navigation
-  const nextImage = () => {
+  // Image navigation - ADDED SAFETY CHECKS
+  const nextImage = useCallback(() => {
+    if (!product || !product.images) return
     setSelectedImage(prev => (prev + 1) % product.images.length)
-  }
+  }, [product])
 
-  const prevImage = () => {
+  const prevImage = useCallback(() => {
+    if (!product || !product.images) return
     setSelectedImage(prev => (prev - 1 + product.images.length) % product.images.length)
-  }
+  }, [product])
 
-  // Quantity handlers
-  const increaseQuantity = () => {
-    setQuantity(prev => Math.min(prev + 1, product.stock))
-  }
+  // Quantity handlers - ADDED SAFETY CHECKS
+  const increaseQuantity = useCallback(() => {
+    if (!product) return
+    setQuantity(prev => Math.min(prev + 1, product.stock || 1))
+  }, [product])
 
-  const decreaseQuantity = () => {
+  const decreaseQuantity = useCallback(() => {
     setQuantity(prev => Math.max(prev - 1, 1))
-  }
+  }, [])
 
-  // Add to cart
-  const handleAddToCart = () => {
+  // Add to cart - IMPROVED WITH ERROR HANDLING
+  const handleAddToCart = useCallback(() => {
     if (!product) return
 
     const cartItem = {
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      image: product.images[0],
+      id: product.id || Date.now(),
+      name: product.name || 'Unknown Product',
+      price: product.price || 0,
+      image: product.images?.[0] || '',
       quantity: quantity,
-      unit: product.unit
+      unit: product.unit || 'unit'
     }
 
     addToCart(cartItem)
     
-    // Show success feedback
-    const button = document.querySelector('.add-to-cart-btn')
-    if (button) {
-      button.classList.add('added')
-      setTimeout(() => button.classList.remove('added'), 2000)
-    }
-  }
+    // Show success feedback safely
+    setTimeout(() => {
+      const button = document.querySelector('.add-to-cart-btn')
+      if (button) {
+        button.classList.add('added')
+        setTimeout(() => button.classList.remove('added'), 2000)
+      }
+    }, 100)
+  }, [product, quantity, addToCart])
 
-  // Wishlist toggle
-  const toggleWishlist = () => {
+  // Wishlist toggle - IMPROVED
+  const toggleWishlist = useCallback(() => {
     if (!user) {
-      // Redirect to login or show login modal
       navigate('/auth?redirect=' + window.location.pathname)
       return
     }
     setIsWishlisted(!isWishlisted)
-  }
+  }, [user, isWishlisted, navigate])
 
-  // Share product
-  const shareProduct = async () => {
+  // Share product - IMPROVED
+  const shareProduct = useCallback(async () => {
+    if (!product) return
+
     const shareData = {
-      title: product.name,
-      text: product.description,
+      title: product.name || 'Organic Product',
+      text: product.description || 'Check out this organic product',
       url: window.location.href,
     }
 
@@ -262,27 +268,32 @@ const ProductDetail = () => {
       }
     } else {
       // Fallback: copy to clipboard
-      navigator.clipboard.writeText(window.location.href)
-      alert('Product link copied to clipboard!')
+      try {
+        await navigator.clipboard.writeText(window.location.href)
+        alert('Product link copied to clipboard!')
+      } catch (err) {
+        console.log('Clipboard error:', err)
+      }
     }
-  }
+  }, [product])
 
-  // Image zoom
-  const handleImageZoom = (e) => {
-    if (!imageZoom) return
+  // Image zoom - IMPROVED
+  const handleImageZoom = useCallback((e) => {
+    if (!imageZoom || !e.currentTarget) return
 
     const { left, top, width, height } = e.currentTarget.getBoundingClientRect()
     const x = ((e.clientX - left) / width) * 100
     const y = ((e.clientY - top) / height) * 100
 
     setZoomPosition({ x, y })
-  }
+  }, [imageZoom])
 
-  // Render rating stars
-  const renderRatingStars = (rating) => {
+  // Render rating stars - IMPROVED
+  const renderRatingStars = useCallback((rating) => {
     const stars = []
-    const fullStars = Math.floor(rating)
-    const hasHalfStar = rating % 1 >= 0.5
+    const safeRating = rating || 0
+    const fullStars = Math.floor(safeRating)
+    const hasHalfStar = safeRating % 1 >= 0.5
 
     for (let i = 1; i <= 5; i++) {
       if (i <= fullStars) {
@@ -295,16 +306,29 @@ const ProductDetail = () => {
     }
 
     return stars
-  }
+  }, [])
 
-  // Format date
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    })
-  }
+  // Format date - IMPROVED
+  const formatDate = useCallback((dateString) => {
+    try {
+      return new Date(dateString).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })
+    } catch (error) {
+      return 'Invalid date'
+    }
+  }, [])
+
+  // Safe product check for rendering
+  const safeProduct = product || {}
+  const safeImages = safeProduct.images || []
+  const safeFeatures = safeProduct.features || []
+  const safeNutritionalInfo = safeProduct.nutritionalInfo || {}
+  const safeFarmer = safeProduct.farmer || {}
+  const safeReviews = reviews || []
+  const safeRelatedProducts = relatedProducts || []
 
   if (loading) {
     return (
@@ -332,8 +356,8 @@ const ProductDetail = () => {
     )
   }
 
-  const discount = product.originalPrice ? 
-    Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) : 0
+  const discount = safeProduct.originalPrice ? 
+    Math.round(((safeProduct.originalPrice - safeProduct.price) / safeProduct.originalPrice) * 100) : 0
 
   return (
     <div className="product-detail-page">
@@ -344,11 +368,11 @@ const ProductDetail = () => {
           <span>/</span>
           <Link to="/products">Products</Link>
           <span>/</span>
-          <Link to={`/products?category=${product.category}`}>
-            {product.category}
+          <Link to={`/products?category=${safeProduct.category}`}>
+            {safeProduct.category}
           </Link>
           <span>/</span>
-          <span className="current">{product.name}</span>
+          <span className="current">{safeProduct.name}</span>
         </nav>
 
         <div className="product-detail-layout">
@@ -360,26 +384,32 @@ const ProductDetail = () => {
               onMouseLeave={() => setImageZoom(false)}
               onMouseMove={handleImageZoom}
             >
-              <img 
-                src={product.images[selectedImage]} 
-                alt={product.name}
-                className={`main-image ${imageZoom ? 'zoomed' : ''}`}
-                style={{
-                  transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`
-                }}
-              />
+              {safeImages.length > 0 && (
+                <img 
+                  src={safeImages[selectedImage]} 
+                  alt={safeProduct.name}
+                  className={`main-image ${imageZoom ? 'zoomed' : ''}`}
+                  style={{
+                    transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`
+                  }}
+                />
+              )}
               
               {/* Image Navigation */}
-              <button className="nav-btn prev" onClick={prevImage}>
-                <FaChevronLeft />
-              </button>
-              <button className="nav-btn next" onClick={nextImage}>
-                <FaChevronRight />
-              </button>
+              {safeImages.length > 1 && (
+                <>
+                  <button className="nav-btn prev" onClick={prevImage}>
+                    <FaChevronLeft />
+                  </button>
+                  <button className="nav-btn next" onClick={nextImage}>
+                    <FaChevronRight />
+                  </button>
+                </>
+              )}
 
               {/* Badges */}
               <div className="image-badges">
-                {product.organic && (
+                {safeProduct.organic && (
                   <span className="badge organic">
                     <FaLeaf />
                     Organic
@@ -390,9 +420,9 @@ const ProductDetail = () => {
                     -{discount}%
                   </span>
                 )}
-                {product.seasonal && (
+                {safeProduct.seasonal && (
                   <span className="badge seasonal">
-                    {product.seasonal}
+                    {safeProduct.seasonal}
                   </span>
                 )}
               </div>
@@ -407,61 +437,63 @@ const ProductDetail = () => {
             </div>
 
             {/* Thumbnail Gallery */}
-            <div className="thumbnail-gallery">
-              {product.images.map((image, index) => (
-                <button
-                  key={index}
-                  className={`thumbnail ${selectedImage === index ? 'active' : ''}`}
-                  onClick={() => setSelectedImage(index)}
-                >
-                  <img src={image} alt={`${product.name} view ${index + 1}`} />
-                </button>
-              ))}
-            </div>
+            {safeImages.length > 1 && (
+              <div className="thumbnail-gallery">
+                {safeImages.map((image, index) => (
+                  <button
+                    key={index}
+                    className={`thumbnail ${selectedImage === index ? 'active' : ''}`}
+                    onClick={() => setSelectedImage(index)}
+                  >
+                    <img src={image} alt={`${safeProduct.name} view ${index + 1}`} />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Product Info */}
           <div className="product-info">
             <div className="product-header">
-              <h1 className="product-title">{product.name}</h1>
+              <h1 className="product-title">{safeProduct.name}</h1>
               
               <div className="product-meta">
-                <span className="category">{product.category}</span>
-                <span className="sku">SKU: {product.sku}</span>
+                <span className="category">{safeProduct.category}</span>
+                <span className="sku">SKU: {safeProduct.sku}</span>
               </div>
 
               {/* Rating */}
               <div className="product-rating">
                 <div className="stars">
-                  {renderRatingStars(product.rating)}
+                  {renderRatingStars(safeProduct.rating)}
                 </div>
-                <span className="rating-value">{product.rating}</span>
-                <span className="review-count">({product.reviewCount} reviews)</span>
+                <span className="rating-value">{safeProduct.rating}</span>
+                <span className="review-count">({safeProduct.reviewCount} reviews)</span>
               </div>
 
               {/* Price */}
               <div className="product-price">
-                {product.originalPrice && (
-                  <span className="original-price">${product.originalPrice.toFixed(2)}</span>
+                {safeProduct.originalPrice && (
+                  <span className="original-price">${safeProduct.originalPrice.toFixed(2)}</span>
                 )}
-                <span className="current-price">${product.price.toFixed(2)}</span>
+                <span className="current-price">${safeProduct.price.toFixed(2)}</span>
                 {discount > 0 && (
                   <span className="discount-badge">Save {discount}%</span>
                 )}
-                <span className="price-unit">/{product.unit}</span>
+                <span className="price-unit">/{safeProduct.unit}</span>
               </div>
 
               {/* Stock Status */}
               <div className="stock-status">
-                {product.stock > 10 ? (
+                {(safeProduct.stock || 0) > 10 ? (
                   <span className="in-stock">
                     <FaCheck />
-                    In Stock ({product.stock} available)
+                    In Stock ({safeProduct.stock} available)
                   </span>
-                ) : product.stock > 0 ? (
+                ) : (safeProduct.stock || 0) > 0 ? (
                   <span className="low-stock">
                     <FaCheck />
-                    Only {product.stock} left in stock
+                    Only {safeProduct.stock} left in stock
                   </span>
                 ) : (
                   <span className="out-of-stock">
@@ -473,36 +505,40 @@ const ProductDetail = () => {
 
             {/* Product Description */}
             <div className="product-description">
-              <p>{product.description}</p>
+              <p>{safeProduct.description}</p>
             </div>
 
             {/* Features */}
-            <div className="product-features">
-              <h3>Key Features</h3>
-              <div className="features-grid">
-                {product.features.map((feature, index) => (
-                  <div key={index} className="feature-item">
-                    <FaCheck />
-                    <span>{feature}</span>
-                  </div>
-                ))}
+            {safeFeatures.length > 0 && (
+              <div className="product-features">
+                <h3>Key Features</h3>
+                <div className="features-grid">
+                  {safeFeatures.map((feature, index) => (
+                    <div key={index} className="feature-item">
+                      <FaCheck />
+                      <span>{feature}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Farmer Info */}
-            <div className="farmer-info">
-              <h3>Meet Your Farmer</h3>
-              <div className="farmer-details">
-                <div className="farmer-avatar">
-                  <FaSeedling />
-                </div>
-                <div className="farmer-content">
-                  <h4>{product.farmer.name}</h4>
-                  <p>{product.farmer.experience} of experience</p>
-                  <span className="specialty">Specialty: {product.farmer.specialty}</span>
+            {safeFarmer.name && (
+              <div className="farmer-info">
+                <h3>Meet Your Farmer</h3>
+                <div className="farmer-details">
+                  <div className="farmer-avatar">
+                    <FaSeedling />
+                  </div>
+                  <div className="farmer-content">
+                    <h4>{safeFarmer.name}</h4>
+                    <p>{safeFarmer.experience} of experience</p>
+                    <span className="specialty">Specialty: {safeFarmer.specialty}</span>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
             {/* Purchase Controls */}
             <div className="purchase-controls">
@@ -521,12 +557,12 @@ const ProductDetail = () => {
                   <button 
                     className="quantity-btn"
                     onClick={increaseQuantity}
-                    disabled={quantity >= product.stock}
+                    disabled={quantity >= (safeProduct.stock || 1)}
                   >
                     <FaPlus />
                   </button>
                 </div>
-                <span className="quantity-unit">{product.unit}</span>
+                <span className="quantity-unit">{safeProduct.unit}</span>
               </div>
 
               {/* Action Buttons */}
@@ -534,12 +570,12 @@ const ProductDetail = () => {
                 <button 
                   className="add-to-cart-btn"
                   onClick={handleAddToCart}
-                  disabled={product.stock === 0}
+                  disabled={(safeProduct.stock || 0) === 0}
                 >
                   <FaShoppingCart />
                   Add to Cart
                   <span className="price-display">
-                    ${(product.price * quantity).toFixed(2)}
+                    ${((safeProduct.price || 0) * quantity).toFixed(2)}
                   </span>
                 </button>
 
@@ -597,7 +633,7 @@ const ProductDetail = () => {
               className={`tab-btn ${activeTab === 'reviews' ? 'active' : ''}`}
               onClick={() => setActiveTab('reviews')}
             >
-              Reviews ({product.reviewCount})
+              Reviews ({safeProduct.reviewCount})
             </button>
             <button 
               className={`tab-btn ${activeTab === 'farm' ? 'active' : ''}`}
@@ -611,28 +647,28 @@ const ProductDetail = () => {
             {activeTab === 'description' && (
               <div className="tab-panel">
                 <h3>Product Details</h3>
-                <p>{product.description}</p>
+                <p>{safeProduct.description}</p>
                 
                 <div className="detail-grid">
                   <div className="detail-item">
                     <FaUtensils />
                     <div>
                       <strong>Preparation</strong>
-                      <p>{product.preparation}</p>
+                      <p>{safeProduct.preparation}</p>
                     </div>
                   </div>
                   <div className="detail-item">
                     <FaCalendar />
                     <div>
                       <strong>Season</strong>
-                      <p>{product.season}</p>
+                      <p>{safeProduct.season}</p>
                     </div>
                   </div>
                   <div className="detail-item">
                     <FaWeight />
                     <div>
                       <strong>Storage</strong>
-                      <p>{product.storageTips}</p>
+                      <p>{safeProduct.storageTips}</p>
                     </div>
                   </div>
                 </div>
@@ -645,30 +681,30 @@ const ProductDetail = () => {
                 <div className="nutrition-grid">
                   <div className="nutrition-item">
                     <span className="label">Calories</span>
-                    <span className="value">{product.nutritionalInfo.calories}</span>
+                    <span className="value">{safeNutritionalInfo.calories}</span>
                   </div>
                   <div className="nutrition-item">
                     <span className="label">Protein</span>
-                    <span className="value">{product.nutritionalInfo.protein}</span>
+                    <span className="value">{safeNutritionalInfo.protein}</span>
                   </div>
                   <div className="nutrition-item">
                     <span className="label">Carbohydrates</span>
-                    <span className="value">{product.nutritionalInfo.carbs}</span>
+                    <span className="value">{safeNutritionalInfo.carbs}</span>
                   </div>
                   <div className="nutrition-item">
                     <span className="label">Fiber</span>
-                    <span className="value">{product.nutritionalInfo.fiber}</span>
+                    <span className="value">{safeNutritionalInfo.fiber}</span>
                   </div>
                 </div>
                 
                 <div className="vitamins-minerals">
                   <h4>Rich in Vitamins & Minerals</h4>
                   <div className="nutrient-tags">
-                    {product.nutritionalInfo.vitamins.map(vitamin => (
-                      <span key={vitamin} className="nutrient-tag">Vitamin {vitamin}</span>
+                    {safeNutritionalInfo.vitamins?.map((vitamin, index) => (
+                      <span key={index} className="nutrient-tag">Vitamin {vitamin}</span>
                     ))}
-                    {product.nutritionalInfo.minerals.map(mineral => (
-                      <span key={mineral} className="nutrient-tag">{mineral}</span>
+                    {safeNutritionalInfo.minerals?.map((mineral, index) => (
+                      <span key={index} className="nutrient-tag">{mineral}</span>
                     ))}
                   </div>
                 </div>
@@ -680,11 +716,11 @@ const ProductDetail = () => {
                 <div className="reviews-header">
                   <div className="reviews-summary">
                     <div className="average-rating">
-                      <span className="rating-number">{product.rating}</span>
+                      <span className="rating-number">{safeProduct.rating}</span>
                       <div className="stars">
-                        {renderRatingStars(product.rating)}
+                        {renderRatingStars(safeProduct.rating)}
                       </div>
-                      <span className="total-reviews">{product.reviewCount} reviews</span>
+                      <span className="total-reviews">{safeProduct.reviewCount} reviews</span>
                     </div>
                   </div>
                   <button className="write-review-btn">
@@ -693,7 +729,7 @@ const ProductDetail = () => {
                 </div>
 
                 <div className="reviews-list">
-                  {reviews.map(review => (
+                  {safeReviews.map(review => (
                     <div key={review.id} className="review-item">
                       <div className="review-header">
                         <div className="reviewer-info">
@@ -725,19 +761,19 @@ const ProductDetail = () => {
                 <div className="farm-details">
                   <div className="farm-item">
                     <strong>Location:</strong>
-                    <span>{product.farmLocation}</span>
+                    <span>{safeProduct.farmLocation}</span>
                   </div>
                   <div className="farm-item">
                     <strong>Harvest Date:</strong>
-                    <span>{formatDate(product.harvestDate)}</span>
+                    <span>{formatDate(safeProduct.harvestDate)}</span>
                   </div>
                   <div className="farm-item">
                     <strong>Farmer:</strong>
-                    <span>{product.farmer.name}</span>
+                    <span>{safeFarmer.name}</span>
                   </div>
                   <div className="farm-item">
                     <strong>Experience:</strong>
-                    <span>{product.farmer.experience}</span>
+                    <span>{safeFarmer.experience}</span>
                   </div>
                 </div>
                 
@@ -763,17 +799,25 @@ const ProductDetail = () => {
           </div>
         </div>
 
-        {/* Related Products */}
+        {/* Related Products - SAFE RENDERING */}
         <section className="related-products">
           <h2>You Might Also Like</h2>
           <div className="related-products-grid">
-            {relatedProducts.map(product => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onQuickAdd={addToCart}
-              />
-            ))}
+            {safeRelatedProducts.map(product => {
+              // Safety check for each product
+              if (!product || typeof product !== 'object') {
+                console.warn('Skipping invalid product:', product)
+                return null
+              }
+              
+              return (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  onQuickAdd={addToCart}
+                />
+              )
+            }).filter(Boolean)}
           </div>
         </section>
       </div>

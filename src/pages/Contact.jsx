@@ -50,7 +50,7 @@ const Contact = () => {
     }
   }
 
-  // Team members - Updated with your team
+  // Team members - Updated with correct GitHub and LinkedIn links
   const teamMembers = [
     {
       id: 1,
@@ -60,7 +60,9 @@ const Contact = () => {
       phone: "+91 12345 67890",
       image: "/images/team/sayali.jpg",
       bio: "Leading the development team with expertise in both frontend and backend technologies. Ensures project delivery meets client requirements.",
-      expertise: ["Project Management", "Full Stack Development", "Team Leadership"]
+      expertise: ["Project Management", "Full Stack Development", "Team Leadership"],
+      github: "https://github.com/sayali-more123",
+      linkedin: "https://www.linkedin.com/in/krishna-patil-rajput-b66b03340"
     },
     {
       id: 2,
@@ -70,7 +72,9 @@ const Contact = () => {
       phone: "+91 12345 67891",
       image: "/images/team/vaibhavi.jpg",
       bio: "Specializes in creating beautiful and responsive user interfaces with modern React.js and CSS frameworks.",
-      expertise: ["React.js", "UI/UX Design", "Responsive Design"]
+      expertise: ["React.js", "UI/UX Design", "Responsive Design"],
+      github: "#",
+      linkedin: "#"
     },
     {
       id: 3,
@@ -80,7 +84,9 @@ const Contact = () => {
       phone: "+91 12345 67892",
       image: "/images/team/ravina.jpg",
       bio: "Handles server-side logic, API development, and database management for robust application performance.",
-      expertise: ["Node.js", "Database Management", "API Development"]
+      expertise: ["Node.js", "Database Management", "API Development"],
+      github: "#",
+      linkedin: "#"
     },
     {
       id: 4,
@@ -90,7 +96,9 @@ const Contact = () => {
       phone: "+91 12345 67893",
       image: "/images/team/yash.jpg",
       bio: "Works on full-stack development and deployment pipelines. Ensures smooth application deployment and maintenance.",
-      expertise: ["Full Stack Development", "DevOps", "System Architecture"]
+      expertise: ["Full Stack Development", "DevOps", "System Architecture"],
+      github: "#",
+      linkedin: "#"
     }
   ]
 
@@ -181,10 +189,10 @@ const Contact = () => {
       <div className="developer-credit">
         <span>Developed by Krishna Patil Rajput</span>
         <div className="developer-links">
-          <a href="https://github.com/krishnapr" target="_blank" rel="noopener noreferrer">
+          <a href="https://github.com/Krishna67890" target="_blank" rel="noopener noreferrer">
             <FaGithub />
           </a>
-          <a href="https://linkedin.com/in/krishnapr" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.linkedin.com/in/krishna-patil-rajput-b66b03340" target="_blank" rel="noopener noreferrer">
             <FaLinkedin />
           </a>
         </div>
@@ -537,6 +545,16 @@ const Contact = () => {
                         <a href={`tel:${member.phone}`}>
                           <FaPhone />
                         </a>
+                        {member.github && member.github !== '#' && (
+                          <a href={member.github} target="_blank" rel="noopener noreferrer">
+                            <FaGithub />
+                          </a>
+                        )}
+                        {member.linkedin && member.linkedin !== '#' && (
+                          <a href={member.linkedin} target="_blank" rel="noopener noreferrer">
+                            <FaLinkedin />
+                          </a>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -552,6 +570,18 @@ const Contact = () => {
                     <div className="member-contact">
                       <a href={`mailto:${member.email}`}>{member.email}</a>
                       <span>{member.phone}</span>
+                    </div>
+                    <div className="member-social">
+                      {member.github && member.github !== '#' && (
+                        <a href={member.github} target="_blank" rel="noopener noreferrer" className="social-icon">
+                          <FaGithub />
+                        </a>
+                      )}
+                      {member.linkedin && member.linkedin !== '#' && (
+                        <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="social-icon">
+                          <FaLinkedin />
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>

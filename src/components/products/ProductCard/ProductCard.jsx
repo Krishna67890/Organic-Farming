@@ -1,8 +1,9 @@
+// src/components/products/ProductCard/ProductCard.jsx
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FaHeart, FaRegHeart, FaShoppingCart, FaLeaf, FaStar, FaEye, FaSeedling } from "react-icons/fa"
-import { useCart } from "../../../context/CartContext" // Fixed path - go up 3 levels
-import { useAuth } from "../../../context/AuthContext" // Fixed path - go up 3 levels
+import { useCart } from "../../../context/CartContext"
+import { useAuth } from "../../../context/AuthContext"
 import "./ProductCard.css"
 
 const ProductCard = ({ 
@@ -12,45 +13,61 @@ const ProductCard = ({
   showActions = true,
   showDescription = true 
 }) => {
+  // EXTREME safety checks - ADDED AT THE TOP
+  if (!product || typeof product !== 'object') {
+    console.error('❌ ProductCard: Invalid product received:', product)
+    return (
+      <div className="product-card error">
+        <div>Product unavailable</div>
+      </div>
+    )
+  }
+
   const [isWishlisted, setIsWishlisted] = useState(false)
   const [imageLoaded, setImageLoaded] = useState(false)
   const [imageError, setImageError] = useState(false)
   const { addToCart } = useCart()
   const { user } = useAuth()
 
+  // Safe destructuring with defaults
   const {
-    id,
-    name,
-    price,
-    originalPrice,
-    image,
-    category,
-    organic,
-    seasonal,
-    rating,
-    reviewCount,
-    description,
-    stock,
-    discount,
+    id = 'unknown',
+    name = 'Unknown Product',
+    price = 0,
+    originalPrice = 0,
+    image = '',
+    category = 'uncategorized',
+    organic = false,
+    seasonal = '',
+    rating = 0,
+    reviewCount = 0,
+    description = '',
+    stock = 0,
+    discount = 0,
     tags = [],
     unit = 'kg'
   } = product
+
+  // Ensure onQuickAdd is a function
+  const safeOnQuickAdd = typeof onQuickAdd === 'function' ? onQuickAdd : () => {
+    console.warn('onQuickAdd is not a function')
+  }
 
   const handleAddToCart = (e) => {
     e.preventDefault()
     e.stopPropagation()
     
     const cartItem = {
-      id,
-      name,
-      price,
-      image,
+      id: id || Date.now(),
+      name: name || 'Unknown Product',
+      price: price || 0,
+      image: image || '',
       quantity: 1,
-      unit
+      unit: unit || 'unit'
     }
     
     addToCart(cartItem)
-    onQuickAdd?.(cartItem)
+    safeOnQuickAdd(cartItem)
     
     // Add visual feedback
     const button = e.target.closest('.add-to-cart-btn')
@@ -71,7 +88,6 @@ const ProductCard = ({
     }
     
     setIsWishlisted(!isWishlisted)
-    // Here you would typically make an API call to update wishlist
   }
 
   const handleImageLoad = () => {
@@ -83,17 +99,19 @@ const ProductCard = ({
   }
 
   const renderRatingStars = () => {
+    const safeRating = rating || 0
     return Array.from({ length: 5 }, (_, index) => (
       <FaStar 
         key={index} 
-        className={index < Math.floor(rating) ? 'star filled' : 'star'}
+        className={index < Math.floor(safeRating) ? 'star filled' : 'star'}
       />
     ))
   }
 
   const getStockStatus = () => {
-    if (stock === 0) return { text: 'Out of Stock', class: 'out-of-stock' }
-    if (stock < 10) return { text: `Only ${stock} left`, class: 'low-stock' }
+    const safeStock = stock || 0
+    if (safeStock === 0) return { text: 'Out of Stock', class: 'out-of-stock' }
+    if (safeStock < 10) return { text: `Only ${safeStock} left`, class: 'low-stock' }
     return { text: 'In Stock', class: 'in-stock' }
   }
 
@@ -109,8 +127,16 @@ const ProductCard = ({
     return colors[seasonal] || '#666'
   }
 
+  // Safe values for rendering
+  const safePrice = typeof price === 'number' ? price : 0
+  const safeOriginalPrice = typeof originalPrice === 'number' ? originalPrice : 0
+  const safeDiscount = typeof discount === 'number' ? discount : 0
+  const safeRating = typeof rating === 'number' ? rating : 0
+  const safeReviewCount = typeof reviewCount === 'number' ? reviewCount : 0
+  const safeStock = typeof stock === 'number' ? stock : 0
+
   return (
-    <div className={`product-card ${variant} ${stock === 0 ? 'out-of-stock' : ''}`}>
+    <div className={`product-card ${variant} ${safeStock === 0 ? 'out-of-stock' : ''}`}>
       {/* Product Image */}
       <div className="product-image-container">
         <Link to={`/products/${id}`} className="product-image-link">
@@ -141,9 +167,9 @@ const ProductCard = ({
               Organic
             </span>
           )}
-          {discount > 0 && (
+          {safeDiscount > 0 && (
             <span className="badge discount">
-              -{discount}%
+              -{safeDiscount}%
             </span>
           )}
           {seasonal && (
@@ -154,7 +180,7 @@ const ProductCard = ({
               {seasonal}
             </span>
           )}
-          {stock === 0 && (
+          {safeStock === 0 && (
             <span className="badge out-of-stock-badge">
               Sold Out
             </span>
@@ -162,7 +188,7 @@ const ProductCard = ({
         </div>
 
         {/* Quick Actions */}
-        {showActions && stock > 0 && (
+        {showActions && safeStock > 0 && (
           <div className="quick-actions">
             <button 
               className="action-btn wishlist-btn"
@@ -185,7 +211,9 @@ const ProductCard = ({
       {/* Product Info */}
       <div className="product-info">
         {/* Category */}
-        <div className="product-category">{category}</div>
+        {category && category !== 'uncategorized' && (
+          <div className="product-category">{category}</div>
+        )}
         
         {/* Name */}
         <h3 className="product-name">
@@ -200,32 +228,32 @@ const ProductCard = ({
         )}
 
         {/* Rating */}
-        {rating > 0 && (
+        {safeRating > 0 && (
           <div className="product-rating">
             <div className="stars">
               {renderRatingStars()}
             </div>
-            <span className="rating-value">{rating.toFixed(1)}</span>
-            {reviewCount > 0 && (
-              <span className="review-count">({reviewCount})</span>
+            <span className="rating-value">{safeRating.toFixed(1)}</span>
+            {safeReviewCount > 0 && (
+              <span className="review-count">({safeReviewCount})</span>
             )}
           </div>
         )}
 
         {/* Price */}
         <div className="product-price">
-          {originalPrice && originalPrice > price ? (
+          {safeOriginalPrice && safeOriginalPrice > safePrice ? (
             <>
-              <span className="current-price">${price.toFixed(2)}</span>
-              <span className="original-price">${originalPrice.toFixed(2)}</span>
-              {discount > 0 && (
+              <span className="current-price">${safePrice.toFixed(2)}</span>
+              <span className="original-price">${safeOriginalPrice.toFixed(2)}</span>
+              {safeDiscount > 0 && (
                 <span className="discount-amount">
-                  Save ${(originalPrice - price).toFixed(2)}
+                  Save ${(safeOriginalPrice - safePrice).toFixed(2)}
                 </span>
               )}
             </>
           ) : (
-            <span className="current-price">${price.toFixed(2)}</span>
+            <span className="current-price">${safePrice.toFixed(2)}</span>
           )}
           <span className="price-unit">/{unit}</span>
         </div>
@@ -249,11 +277,11 @@ const ProductCard = ({
         {/* Action Buttons */}
         {showActions && (
           <div className="product-actions">
-            {stock > 0 ? (
+            {safeStock > 0 ? (
               <button
                 className="add-to-cart-btn"
                 onClick={handleAddToCart}
-                disabled={stock === 0}
+                disabled={safeStock === 0}
               >
                 <FaShoppingCart />
                 Add to Cart
